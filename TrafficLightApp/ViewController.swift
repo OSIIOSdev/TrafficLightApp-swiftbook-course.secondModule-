@@ -15,9 +15,9 @@ class ViewController: UIViewController {
     }
     
     // MARK: - @IBOutlets
-    @IBOutlet var RedLightView: UIView!
-    @IBOutlet var YellowLightView: UIView!
-    @IBOutlet var GreenLightView: UIView!
+    @IBOutlet var redLightView: UIView!
+    @IBOutlet var yellowLightView: UIView!
+    @IBOutlet var greenLightView: UIView!
     
     @IBOutlet var ButtonLightChanged: UIButton!
     
@@ -33,23 +33,28 @@ class ViewController: UIViewController {
         
         setButtonConfig()
         
-        setLightConfig(for: RedLightView, color: .systemRed)
-        setLightConfig(for: YellowLightView, color: .systemYellow)
-        setLightConfig(for: GreenLightView, color: .systemGreen)
+        setLightConfig(for: redLightView, color: .systemRed)
+        setLightConfig(for: yellowLightView, color: .systemYellow)
+        setLightConfig(for: greenLightView, color: .systemGreen)
+    }
+    
+    override func viewWillLayoutSubviews() {
+        redLightView.layer.cornerRadius = redLightView.frame.width / 2
+        yellowLightView.layer.cornerRadius = yellowLightView.frame.width / 2
+        greenLightView.layer.cornerRadius = greenLightView.frame.width / 2
     }
 
-    // MARK: - SettingsMethods
+    // MARK: - UIElementsSettingsMethods
+    private func setLightConfig(for light: UIView, color: UIColor) {
+        light.backgroundColor = color
+        light.alpha = lighOff
+    }
+    
     private func setButtonConfig() {
         ButtonLightChanged.layer.cornerRadius = 15
         ButtonLightChanged.setTitle("START", for: .normal)
-        ButtonLightChanged.tintColor = UIColor.white
-        ButtonLightChanged.backgroundColor = UIColor.black
-    }
-    
-    private func setLightConfig(for light: UIView, color: UIColor) {
-        light.layer.cornerRadius = light.frame.width / 2
-        light.backgroundColor = color
-        light.alpha = lighOff
+        ButtonLightChanged.tintColor = UIColor.black
+        ButtonLightChanged.backgroundColor = UIColor.white
     }
     
     // MARK: - @IBActionMethods
@@ -58,16 +63,16 @@ class ViewController: UIViewController {
         
         switch currentLight {
         case .red:
-            GreenLightView.alpha = lighOff
-            RedLightView.alpha = lightOn
+            greenLightView.alpha = lighOff
+            redLightView.alpha = lightOn
             currentLight = .yellow
         case .yellow:
-            RedLightView.alpha = lighOff
-            YellowLightView.alpha = lightOn
+            redLightView.alpha = lighOff
+            yellowLightView.alpha = lightOn
             currentLight = .green
         case .green:
-            YellowLightView.alpha = lighOff
-            GreenLightView.alpha = lightOn
+            yellowLightView.alpha = lighOff
+            greenLightView.alpha = lightOn
             currentLight = .red
         }
     }
